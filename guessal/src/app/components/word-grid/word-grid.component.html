@@ -1,0 +1,56 @@
+
+
+
+
+   
+<div class=" mx-auto text-center mt-5" style="width: 300px;">
+    <div class="grid grid-cols-5 gap-2 text-2xl" *ngFor="let c of count()">
+        <div *ngFor="let g of grid[c]">
+            <div class="letter-grid border mb-2 border-black p-3 dark:border-white dark:text-white">{{ g[0] }}</div>
+        </div>
+    </div>
+
+    
+</div>
+
+
+<div class="flex flex-col gap-y-2 mt-10 mx-auto overflow-x-hidden select-none dark:invert md:scale-125">
+
+    <div class="flex flex-row mx-auto gap-1 text-center">
+        <p (click)="virtualKey('Q')">Q</p>
+        <p (click)="virtualKey('W')">W</p>
+        <p (click)="virtualKey('E')">E</p>
+        <p (click)="virtualKey('R')">R</p>
+        <p (click)="virtualKey('T')">T</p>
+        <p (click)="virtualKey('Y')">Y</p>
+        <p (click)="virtualKey('U')">U</p>
+        <p (click)="virtualKey('I')">I</p>
+        <p (click)="virtualKey('O')">O</p>
+        <p (click)="virtualKey('P')">P</p>
+    </div>
+
+    <div class="flex flex-row mx-auto gap-1 text-center">
+        <p (click)="virtualKey('A')">A</p>
+        <p (click)="virtualKey('S')">S</p>
+        <p (click)="virtualKey('D')">D</p>
+        <p (click)="virtualKey('F')">F</p>
+        <p (click)="virtualKey('G')">G</p>
+        <p (click)="virtualKey('H')">H</p>
+        <p (click)="virtualKey('J')">J</p>
+        <p (click)="virtualKey('K')">K</p>
+        <p (click)="virtualKey('L')">L</p>
+    </div>
+
+    <div class="flex flex-row mx-auto gap-1 text-center">
+        <div class="fn-button" (click)="onSubmit()">Submit</div>
+        <p (click)="virtualKey('Z')">Z</p>
+        <p (click)="virtualKey('X')">X</p>
+        <p (click)="virtualKey('C')">C</p>
+        <p (click)="virtualKey('V')">V</p>
+        <p (click)="virtualKey('B')">B</p>
+        <p (click)="virtualKey('N')">N</p>
+        <p (click)="virtualKey('M')">M</p>
+        <div class="fn-button" (click)="backSpace()">Back</div>
+    </div>
+
+</div>

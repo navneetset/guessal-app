@@ -1,0 +1,25 @@
+.letter-grid{
+    
+    height: 58px;
+}
+
+
+p {
+    @apply border border-black py-1 w-7 sm:w-8 hover:cursor-pointer dark:border-white;
+}
+
+.fn-button {
+    @apply border border-black py-1 px-1 hover:cursor-pointer dark:border-white;
+}
+
+.wrong {
+    @apply transition duration-200 bg-red-300 text-black
+}
+
+.right {
+    @apply transition duration-200 bg-green-300 text-black
+}
+
+.maybe {
+    @apply transition duration-200 bg-yellow-300 text-black
+}
