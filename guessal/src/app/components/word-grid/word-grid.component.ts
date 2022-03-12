@@ -79,19 +79,27 @@ export class WordGridComponent implements OnInit {
   }
 
   async onSubmit(){
-    try{
-      const checkWordArr = []
+      const checkWordArr = [];
+      let dictCheck = false;
       if(this.currentGrid === 5) {
         for(let i = 0; i < 5; i++) {
           checkWordArr.push(this.grid[this.currentAttempt][i])
         }
       }
       const typeWord = checkWordArr.join('').toLowerCase()
-      
-      axios.get('../../../assets/dictionary/5-words.json').then(response => {return console.log(response.data[typeWord])})
-    } catch(error) {
-    console.log(error);
-  }
+      const dictionary:any = await axios.get('../../../assets/dictionary/5-words.json').then(response => {return response.data[typeWord]})
+      try{
+        if(dictionary === 1) dictCheck = true;
+        if(dictionary !== 1) dictCheck = false;
+      }
+      catch(e) {
+      console.log(e)
+    }
+
+    if(dictCheck === true) {
+      console.log('exists')
+    }
+    
   }
 
 
