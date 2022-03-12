@@ -31,12 +31,12 @@ export class WordGridComponent implements OnInit {
     4: [['', 'd'], ['', 'd'], ['', 'd'], ['', 'd'], ['', 'd']],
     5: [['', 'd'], ['', 'd'], ['', 'd'], ['', 'd'], ['', 'd']]
   }
-  
 
 
-  count(num: number = 6){
+
+  count(num: number = 6) {
     const output: any[] = []
-    for(let i = 0; i < num; i++){
+    for (let i = 0; i < num; i++) {
       output.push(i)
     }
 
@@ -45,64 +45,85 @@ export class WordGridComponent implements OnInit {
 
   key!: any;
 
-  @HostListener('document:keypress', ['$event'])
-  handleKeyboardEvent(event: any) { 
-    if (!/[^a-zA-Z]/.test(event.key)){
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: any) {
+
+    if (event.key === 'Backspace') {
+      this.backSpace();
+    }
+
+    if (event.key === 'Enter') {
+      this.onSubmit();
+    }
+
+    if (!/[^a-zA-Z]/.test(event.key) && event.key.length === 1) {
       this.key = event.key
-      if(this.currentGrid < 5) {
+      if (this.currentGrid < 5) {
         this.grid[this.currentAttempt][this.currentGrid] = (this.key.toUpperCase());
         this.currentGrid++
 
-        if(this.currentGrid === 5){
-          console.log('check word')
+        if (this.currentGrid === 5) {
+
+
         }
       }
 
-    }    
+    }
   }
 
 
 
-  virtualKey(key: string){
-    if(this.currentGrid < 5) {
+
+  virtualKey(key: string) {
+    if (this.currentGrid < 5) {
       this.grid[this.currentAttempt][this.currentGrid] = key;
       this.currentGrid++
     }
   }
 
-  backSpace(){
-    if(this.currentGrid > 0) {
+  backSpace() {
+    if (this.currentGrid > 0) {
       this.currentGrid--
       this.grid[this.currentAttempt][this.currentGrid] = '';
       return;
     }
   }
 
-  async onSubmit(){
-      const checkWordArr = [];
-      let dictCheck = false;
-      if(this.currentGrid === 5) {
-        for(let i = 0; i < 5; i++) {
-          checkWordArr.push(this.grid[this.currentAttempt][i])
-        }
+  async onSubmit() {
+    const checkWordArr = [];
+    let dictCheck = false;
+
+    if (this.currentGrid === 5) {
+      for (let i = 0; i < 5; i++) {
+        checkWordArr.push(this.grid[this.currentAttempt][i])
       }
-      const typeWord = checkWordArr.join('').toLowerCase()
-      const dictionary:any = await axios.get('../../../assets/dictionary/5-words.json').then(response => {return response.data[typeWord]})
-      try{
-        if(dictionary === 1) dictCheck = true;
-        if(dictionary !== 1) dictCheck = false;
-      }
-      catch(e) {
+    }
+
+    const typeWord = checkWordArr.join('').toLowerCase()
+
+    if (await this.checkDictionary(typeWord)) {
+      console.log('word exists')
+    } else console.log('word does not exist')
+
+
+  }
+
+  async checkDictionary(word: string) {
+    let dictCheck = false;
+    const dictionary: any = await axios.get('../../../assets/dictionary/5-words.json').then(response => { return response.data[word] })
+
+    try {
+      (dictionary === 1) ? dictCheck = true : dictCheck = false;
+    }
+    catch (e) {
       console.log(e)
     }
 
-    if(dictCheck === true) {
-      console.log('exists')
-    }
-    
+    if (dictCheck === true) {
+      return true;
+    } else return false;
+
   }
-
-
 
 
 }
