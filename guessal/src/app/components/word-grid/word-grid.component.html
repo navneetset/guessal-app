@@ -6,7 +6,7 @@
 <div class=" mx-auto text-center mt-5" style="width: 300px;">
     <div class="grid grid-cols-5 gap-2 text-2xl" *ngFor="let c of count()">
         <div *ngFor="let g of grid[c]">
-            <div class="letter-grid border mb-2 border-black p-3 dark:border-white dark:text-white">{{ g[0] }}</div>
+            <div class="letter-grid border mb-2 border-black p-3 dark:border-white dark:text-white" [class]="g[1]">{{ g[0] }}</div>
         </div>
     </div>
 

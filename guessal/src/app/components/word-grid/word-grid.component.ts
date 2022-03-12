@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import axios from 'axios';
+import * as e from 'express';
 import { response } from 'express';
 
 @Component({
@@ -45,53 +46,8 @@ export class WordGridComponent implements OnInit {
 
   key!: any;
 
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: any) {
-
-    if (event.key === 'Backspace') {
-      this.backSpace();
-    }
-
-    if (event.key === 'Enter') {
-      this.onSubmit();
-    }
-
-    if (!/[^a-zA-Z]/.test(event.key) && event.key.length === 1) {
-      this.key = event.key
-      if (this.currentGrid < 5) {
-        this.grid[this.currentAttempt][this.currentGrid] = (this.key.toUpperCase());
-        this.currentGrid++
-
-        if (this.currentGrid === 5) {
-
-
-        }
-      }
-
-    }
-  }
-
-
-
-
-  virtualKey(key: string) {
-    if (this.currentGrid < 5) {
-      this.grid[this.currentAttempt][this.currentGrid] = key;
-      this.currentGrid++
-    }
-  }
-
-  backSpace() {
-    if (this.currentGrid > 0) {
-      this.currentGrid--
-      this.grid[this.currentAttempt][this.currentGrid] = '';
-      return;
-    }
-  }
-
   async onSubmit() {
     const checkWordArr = [];
-    let dictCheck = false;
 
     if (this.currentGrid === 5) {
       for (let i = 0; i < 5; i++) {
@@ -103,6 +59,8 @@ export class WordGridComponent implements OnInit {
 
     if (await this.checkDictionary(typeWord)) {
       console.log('word exists')
+      await this.checkWotd(typeWord)
+
     } else console.log('word does not exist')
 
 
@@ -123,6 +81,78 @@ export class WordGridComponent implements OnInit {
       return true;
     } else return false;
 
+  }
+
+  async checkWotd(word: string) {
+    if (word === this.wotd) { //win game condition
+      console.log('same word')
+      for(let i = 0; i < this.wotd.length; i++){
+        this.grid[this.currentAttempt][i] = [(word.toUpperCase().split(''))[i], 'r']
+      }
+      return;
+    }
+    if (word !== this.wotd) {
+      const wotdArr = this.wotd.split('')
+      const guessArr = word.split('')
+      console.log(wotdArr)
+
+      for(let i = 0; i < this.wotd.length; i++){
+        if(guessArr[i] === wotdArr[i]){
+          console.log(guessArr[i]);
+          this.grid[this.currentAttempt][i] = [guessArr[i].toUpperCase(), 'r']
+        } else {
+          for(let j = 0+i; j < this.wotd.length; j++){
+            console.log(guessArr[i], wotdArr[j])
+            if(guessArr[i] === wotdArr[j]) {
+              this.grid[this.currentAttempt][i] = [guessArr[i].toUpperCase(), 'm'];
+              break;
+            } else if(guessArr[i] !== wotdArr[j]) this.grid[this.currentAttempt][i] = [guessArr[i].toUpperCase(), 'w']
+          }
+        }
+      }
+      this.currentAttempt++;
+      this.currentGrid = 0;
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: any) {
+
+    if (event.key === 'Backspace') {
+      this.backSpace();
+    }
+
+    if (event.key === 'Enter') {
+      this.onSubmit();
+    }
+
+    if (!/[^a-zA-Z]/.test(event.key) && event.key.length === 1) {
+      this.key = event.key
+      if (this.currentGrid < 5) {
+        this.grid[this.currentAttempt][this.currentGrid] = (this.key.toUpperCase());
+        this.currentGrid++
+
+        if (this.currentGrid === 5) {
+
+        }
+      }
+
+    }
+  }
+
+  virtualKey(key: string) {
+    if (this.currentGrid < 5) {
+      this.grid[this.currentAttempt][this.currentGrid] = key;
+      this.currentGrid++
+    }
+  }
+
+  backSpace() {
+    if (this.currentGrid > 0) {
+      this.currentGrid--
+      this.grid[this.currentAttempt][this.currentGrid] = '';
+      return;
+    }
   }
 
 

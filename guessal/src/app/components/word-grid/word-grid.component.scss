@@ -12,14 +12,14 @@ p {
     @apply border border-black py-1 px-1 hover:cursor-pointer dark:border-white;
 }
 
-.wrong {
+.w {
     @apply transition duration-200 bg-red-300 text-black
 }
 
-.right {
+.r {
     @apply transition duration-200 bg-green-300 text-black
 }
 
-.maybe {
+.m {
     @apply transition duration-200 bg-yellow-300 text-black
 }
