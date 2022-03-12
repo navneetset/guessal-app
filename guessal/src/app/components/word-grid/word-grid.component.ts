@@ -13,10 +13,17 @@ export class WordGridComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  wordArray: any
 
+  ngOnInit(): void {
+    axios.get('../../../assets/dictionary/5-letters-wotd.json').then(response => { 
+      response;
+      this.wordArray = Object.keys(response.data)
+      this.wotd = this.wordArray[Math.floor(Math.random() * this.wordArray.length)]
+      console.log(this.wotd)
+     })
   }
-  wotd = 'today'
+  wotd!: string;
 
   wordLength = 5;
   maxAttempts = 6;
@@ -58,7 +65,6 @@ export class WordGridComponent implements OnInit {
     const typeWord = checkWordArr.join('').toLowerCase()
 
     if (await this.checkDictionary(typeWord)) {
-      console.log('word exists')
       await this.checkWotd(typeWord)
 
     } else console.log('word does not exist')
@@ -101,12 +107,16 @@ export class WordGridComponent implements OnInit {
         if(guessArr[i] === wotdArr[i]){
           await this.delay(300)
           this.grid[this.currentAttempt][i] = [guessArr[i].toUpperCase(), 'r']
+          wotdArr[i] = ' ' 
+          console.log(wotdArr)
         } else { 
           await this.delay(300)
-          for(let j = 0+i; j < this.wotd.length; j++){
+          for(let j = 0; j < this.wotd.length; j++){
             console.log(guessArr[i], wotdArr[j])
             if(guessArr[i] === wotdArr[j]) {
               this.grid[this.currentAttempt][i] = [guessArr[i].toUpperCase(), 'm'];
+              wotdArr.splice(j, 1)
+              console.log(wotdArr)
               break;
             } else if(guessArr[i] !== wotdArr[j]) this.grid[this.currentAttempt][i] = [guessArr[i].toUpperCase(), 'w']
           }
