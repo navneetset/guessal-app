@@ -5,7 +5,7 @@
 
 
 p {
-    @apply border border-black py-1 w-7 sm:w-8 hover:cursor-pointer dark:border-white;
+    @apply border border-black py-1 w-7 text-lg my-auto sm:w-10 hover:cursor-pointer dark:border-white;
 }
 
 .fn-button {
@@ -13,13 +13,13 @@ p {
 }
 
 .w {
-    @apply transition duration-200 bg-red-300 text-black
+    @apply transition duration-300 bg-red-300 text-black
 }
 
 .r {
-    @apply transition duration-200 bg-green-300 text-black
+    @apply transition duration-300 bg-green-300 text-black
 }
 
 .m {
-    @apply transition duration-200 bg-yellow-300 text-black
+    @apply transition duration-300 bg-yellow-300 text-black
 }
