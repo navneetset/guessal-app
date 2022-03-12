@@ -87,6 +87,7 @@ export class WordGridComponent implements OnInit {
     if (word === this.wotd) { //win game condition
       console.log('same word')
       for(let i = 0; i < this.wotd.length; i++){
+        await this.delay(300)
         this.grid[this.currentAttempt][i] = [(word.toUpperCase().split(''))[i], 'r']
       }
       return;
@@ -98,9 +99,10 @@ export class WordGridComponent implements OnInit {
 
       for(let i = 0; i < this.wotd.length; i++){
         if(guessArr[i] === wotdArr[i]){
-          console.log(guessArr[i]);
+          await this.delay(300)
           this.grid[this.currentAttempt][i] = [guessArr[i].toUpperCase(), 'r']
-        } else {
+        } else { 
+          await this.delay(300)
           for(let j = 0+i; j < this.wotd.length; j++){
             console.log(guessArr[i], wotdArr[j])
             if(guessArr[i] === wotdArr[j]) {
@@ -156,4 +158,7 @@ export class WordGridComponent implements OnInit {
   }
 
 
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 }
